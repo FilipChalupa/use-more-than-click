@@ -1,0 +1,71 @@
+{
+	"name": "use-more-than-click",
+	"version": "0.0.0",
+	"description": "",
+	"main": "./dist/index.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"scripts": {
+		"start": "rollup -c -w",
+		"build": "rollup -c",
+		"prepare": "npm run build",
+		"check": "eslint \"src/**/*.{ts,tsx}\"",
+		"storybook": "start-storybook -p 6006",
+		"build-storybook": "npm run build && build-storybook"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/FilipChalupa/use-more-than-click.git"
+	},
+	"keywords": [
+		"ui",
+		"button",
+		"click",
+		"typescript",
+		"react"
+	],
+	"author": {
+		"name": "Filip Chalupa",
+		"email": "chalupa.filip@gmail.com",
+		"url": "https://www.npmjs.com/~onset"
+	},
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.17.5",
+		"@rollup/plugin-commonjs": "^16.0.0",
+		"@rollup/plugin-node-resolve": "^10.0.0",
+		"@storybook/addon-actions": "^6.4.19",
+		"@storybook/addon-essentials": "^6.4.19",
+		"@storybook/addon-interactions": "^6.4.19",
+		"@storybook/addon-links": "^6.4.19",
+		"@storybook/react": "^6.4.19",
+		"@storybook/testing-library": "^0.0.9",
+		"@types/react": "^17.0.39",
+		"@typescript-eslint/eslint-plugin": "^5.37.0",
+		"@typescript-eslint/parser": "^5.37.0",
+		"autoprefixer": "^10.4.9",
+		"babel-loader": "^8.2.3",
+		"eslint": "^8.23.1",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-config-standard-with-typescript": "^23.0.0",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-n": "^15.2.5",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-promise": "^6.0.1",
+		"eslint-plugin-react": "^7.31.8",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"prettier": "^2.1.2",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"rollup": "^2.33.1",
+		"rollup-plugin-peer-deps-external": "^2.2.4",
+		"rollup-plugin-typescript2": "^0.33.0",
+		"typescript": "^4.8.3"
+	},
+	"peerDependencies": {
+		"react": "17 || 18"
+	},
+	"files": [
+		"/dist/"
+	]
+}
