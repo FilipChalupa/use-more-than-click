@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect } from 'react'
+import { RefObject, useCallback, useEffect, useMemo, useState } from 'react'
 
 export type MoreThanClickCallback = (
 	type: 'double-click' | 'long-press',
@@ -6,11 +6,13 @@ export type MoreThanClickCallback = (
 
 export const useMoreThanClick = (
 	ref: RefObject<HTMLElement>,
-	callback: MoreThanClickCallback,
+	actionHandler: MoreThanClickCallback,
 ) => {
+	const [progress, setProgress] = useState(0)
 	const handleClick = useCallback(() => {
-		callback('double-click') // @TODO: this is not double click yet
-	}, [])
+		actionHandler('double-click') // @TODO: this is not double click yet
+		setProgress(1)
+	}, [actionHandler])
 
 	useEffect(() => {
 		const element = ref.current
@@ -25,4 +27,6 @@ export const useMoreThanClick = (
 			element.removeEventListener('click', handleClick)
 		}
 	}, [ref, handleClick])
+
+	return useMemo(() => ({ progress }), [progress])
 }
