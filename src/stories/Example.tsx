@@ -11,5 +11,9 @@ export const Example: FunctionComponent = () => {
 	)
 	useMoreThanClick(ref, handleDoubleClickOrLongPress)
 
-	return <button ref={ref}>Click me</button>
+	return (
+		<button className="example-button" ref={ref}>
+			Click me
+		</button>
+	)
 }
