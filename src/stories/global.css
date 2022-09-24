@@ -33,6 +33,18 @@ button {
 	touch-action: manipulation;
 	vertical-align: baseline;
 	width: auto;
+	z-index: 0;
+}
+
+.example-button::before {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	opacity: calc(0.4 + max(0, var(--progress) - 0.8));
+	background-color: #04a600;
+	transform: scaleX(var(--progress));
+	transform-origin: 0 50%;
 }
 
 .example-button:hover,

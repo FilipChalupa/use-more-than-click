@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useCallback, useRef } from 'react'
+import React, {
+	CSSProperties,
+	FunctionComponent,
+	useCallback,
+	useRef,
+} from 'react'
 import { MoreThanClickCallback, useMoreThanClick } from '../useMoreThanClick'
 
 export const Example: FunctionComponent = () => {
@@ -9,10 +14,18 @@ export const Example: FunctionComponent = () => {
 		},
 		[],
 	)
-	useMoreThanClick(ref, handleDoubleClickOrLongPress)
+	const { progress } = useMoreThanClick(ref, handleDoubleClickOrLongPress)
 
 	return (
-		<button className="example-button" ref={ref}>
+		<button
+			className="example-button"
+			style={
+				{
+					['--progress']: progress,
+				} as CSSProperties
+			}
+			ref={ref}
+		>
 			Click me
 		</button>
 	)
