@@ -1,5 +1,6 @@
 export type MoreThanClickType = 'double-click' | 'long-press'
 
+// @TODO: make configurable
 const firstSingleClickProgress = 0.3
 const minimumHoldDurationMilliseconds = 300
 const holdDurationToActionMilliseconds = 800
