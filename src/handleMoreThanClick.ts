@@ -13,20 +13,20 @@ export const handleMoreThanClick = (
 	handleProgressChange: (progress: number) => void = () => {},
 ) => {
 	let progress = 0
-	let isPressed = false
+	let pressStartAt: number | null = null
 	let clickedOnceAt: number | null = null
 	let loopId: ReturnType<typeof requestAnimationFrame> | null = null
 
 	const loop = () => {
 		console.log('loop')
-		if (progress === 0 && isPressed === false) {
+		if (progress === 0 && pressStartAt === null) {
 			stopLoop()
 			return
 		}
-		if (isPressed) {
-			setProgress(progress + 0.01) // @TODO
-		} else {
+		if (pressStartAt === null) {
 			setProgress(progress - 0.01) // @TODO
+		} else {
+			setProgress(progress + 0.01) // @TODO
 		}
 		loopId = requestAnimationFrame(loop)
 	}
@@ -81,15 +81,15 @@ export const handleMoreThanClick = (
 		startLoopIfIdle()
 	}
 	const handlePointerDown = () => {
-		isPressed = true
+		pressStartAt = getNow()
 		console.log('handlePointerDown')
 		startLoopIfIdle()
 	}
 	const handlePointerUp = () => {
-		if (isPressed === false) {
+		if (pressStartAt === null) {
 			return
 		}
-		isPressed = false
+		pressStartAt = null
 		console.log('handlePointerUp')
 		if (progress === 1) {
 			handleBeforeAction('long-press')
@@ -97,10 +97,10 @@ export const handleMoreThanClick = (
 		startLoopIfIdle()
 	}
 	const handlePointerLeave = () => {
-		if (isPressed === false) {
+		if (pressStartAt === null) {
 			return
 		}
-		isPressed = false
+		pressStartAt = null
 		console.log('handlePointerLeave')
 		startLoopIfIdle()
 	}
@@ -118,5 +118,5 @@ export const handleMoreThanClick = (
 		stopLoop()
 	}
 
-	return { destroy, isPressed: () => isPressed, progress: () => progress }
+	return { destroy, isPressed: () => pressStartAt, progress: () => progress }
 }
