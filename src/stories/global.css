@@ -30,7 +30,7 @@ button {
 	transition: all 250ms;
 	user-select: none;
 	-webkit-user-select: none;
-	touch-action: manipulation;
+	touch-action: none;
 	vertical-align: baseline;
 	width: auto;
 	z-index: 0;
