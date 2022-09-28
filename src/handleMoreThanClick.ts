@@ -3,6 +3,7 @@ export type MoreThanClickType = 'double-click' | 'long-press'
 const firstSingleClickProgress = 0.3
 const minimumHoldDurationMilliseconds = 300
 const holdDurationToActionMilliseconds = 800
+const decayDurationMilliseconds = 1000
 const doubleClickMaximumIntervalMilliseconds = 500
 
 const getNow = () => Date.now()
@@ -13,7 +14,8 @@ export const handleMoreThanClick = (
 	handleProgressChange: (progress: number) => void = () => {},
 ) => {
 	let progress = 0
-	let pressStart: {
+	let lastPressAction: {
+		type: 'down' | 'up' | 'leave' | 'click'
 		time: number
 		progress: number
 	} | null = null
@@ -22,17 +24,20 @@ export const handleMoreThanClick = (
 
 	const loop = () => {
 		console.log('loop')
-		if (progress === 0 && pressStart === null) {
+		const now = getNow()
+		if (progress === 0 && lastPressAction?.type !== 'down') {
 			stopLoop()
 			return
 		}
-		if (pressStart === null) {
-			setProgress(progress - 0.01) // @TODO
-		} else {
-			const now = getNow()
+		if (lastPressAction?.type === 'down') {
 			setProgress(
-				pressStart.progress +
-					(now - pressStart.time) / holdDurationToActionMilliseconds,
+				lastPressAction.progress +
+					(now - lastPressAction.time) / holdDurationToActionMilliseconds,
+			)
+		} else if (lastPressAction !== null) {
+			setProgress(
+				lastPressAction.progress -
+					(now - lastPressAction.time) / decayDurationMilliseconds,
 			)
 		}
 		loopId = requestAnimationFrame(loop)
@@ -53,12 +58,13 @@ export const handleMoreThanClick = (
 	}
 
 	const setProgress = (newProgress: number) => {
+		console.log({ newProgress })
 		const newProgressClamped = Math.min(1, Math.max(0, newProgress))
 		if (newProgressClamped !== progress) {
 			progress = newProgressClamped
 			if (progress === 0) {
 				clickedOnceAt = null
-				console.log({ isClickedOnceAt: clickedOnceAt })
+				console.log({ clickedOnceAt })
 			}
 			handleProgressChange(progress)
 		}
@@ -76,7 +82,14 @@ export const handleMoreThanClick = (
 			minimumHoldDurationMilliseconds
 		) {
 			// @TODO: ignore after double-click
+			console.log('JUMPPP')
 			setProgress(firstSingleClickProgress)
+			lastPressAction = {
+				type: 'click',
+				time: getNow(),
+				progress,
+			}
+			console.log('JUMPPP after')
 		}
 		if (
 			clickedOnceAt !== null &&
@@ -86,7 +99,7 @@ export const handleMoreThanClick = (
 			handleBeforeAction('double-click')
 		} else {
 			clickedOnceAt = getNow()
-			console.log({ isClickedOnceAt: clickedOnceAt })
+			console.log({ clickedOnceAt })
 		}
 		startLoopIfIdle()
 	}
@@ -94,7 +107,8 @@ export const handleMoreThanClick = (
 		if (event.button !== 0) {
 			return
 		}
-		pressStart = {
+		lastPressAction = {
+			type: 'down',
 			time: getNow(),
 			progress,
 		}
@@ -102,10 +116,14 @@ export const handleMoreThanClick = (
 		startLoopIfIdle()
 	}
 	const handlePointerUp = (event: PointerEvent) => {
-		if (pressStart === null || event.button !== 0) {
+		if (lastPressAction?.type !== 'down' || event.button !== 0) {
 			return
 		}
-		pressStart = null
+		lastPressAction = {
+			type: 'up',
+			time: getNow(),
+			progress,
+		}
 		console.log('handlePointerUp')
 		if (progress === 1) {
 			handleBeforeAction('long-press')
@@ -113,10 +131,14 @@ export const handleMoreThanClick = (
 		startLoopIfIdle()
 	}
 	const handlePointerLeave = () => {
-		if (pressStart === null) {
+		if (lastPressAction?.type !== 'down') {
 			return
 		}
-		pressStart = null
+		lastPressAction = {
+			type: 'leave',
+			time: getNow(),
+			progress,
+		}
 		console.log('handlePointerLeave')
 		startLoopIfIdle()
 	}
@@ -134,5 +156,9 @@ export const handleMoreThanClick = (
 		stopLoop()
 	}
 
-	return { destroy, isPressed: () => pressStart, progress: () => progress }
+	return {
+		destroy,
+		isPressed: () => lastPressAction?.type === 'down',
+		progress: () => progress,
+	}
 }
