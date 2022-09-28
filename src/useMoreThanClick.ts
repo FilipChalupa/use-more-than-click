@@ -27,7 +27,7 @@ export const useMoreThanClick = (
 		return () => {
 			handler.destroy()
 		}
-	}, [ref])
+	}, [ref, actionHandler])
 
 	return useMemo(() => ({ progress }), [progress])
 }
