@@ -42,11 +42,13 @@ export const Example: FunctionComponent = () => {
 					Click me
 				</button>
 			</div>
-			{actionInfo && (
-				<p key={actionInfo.key} className="example-button-action">
-					{actionInfo.text}
-				</p>
-			)}
+			<div className="example-button-action-wrapper">
+				{actionInfo && (
+					<p key={actionInfo.key} className="example-button-action">
+						{actionInfo.text}
+					</p>
+				)}
+			</div>
 		</>
 	)
 }
