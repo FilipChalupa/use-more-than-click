@@ -7,6 +7,7 @@
 	"types": "./dist/index.d.ts",
 	"scripts": {
 		"start": "rollup -c -w",
+		"dev": "npm start",
 		"build": "rollup -c",
 		"prepare": "npm run build",
 		"check": "eslint \"src/**/*.{ts,tsx}\"",
