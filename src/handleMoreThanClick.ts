@@ -23,7 +23,6 @@ export const handleMoreThanClick = (
 	let loopId: ReturnType<typeof requestAnimationFrame> | null = null
 
 	const loop = () => {
-		console.log('loop')
 		const now = getNow()
 		if (progress === 0 && lastPressAction?.type !== 'down') {
 			stopLoop()
@@ -58,13 +57,11 @@ export const handleMoreThanClick = (
 	}
 
 	const setProgress = (newProgress: number) => {
-		console.log({ newProgress })
 		const newProgressClamped = Math.min(1, Math.max(0, newProgress))
 		if (newProgressClamped !== progress) {
 			progress = newProgressClamped
 			if (progress === 0) {
 				clickedOnceAt = null
-				console.log({ clickedOnceAt })
 			}
 			handleProgressChange(progress)
 		}
@@ -76,20 +73,17 @@ export const handleMoreThanClick = (
 	}
 
 	const handleClick = () => {
-		console.log('handleClick')
 		if (
 			progress * holdDurationToActionMilliseconds <
 			minimumHoldDurationMilliseconds
 		) {
 			// @TODO: ignore after double-click
-			console.log('JUMPPP')
 			setProgress(firstSingleClickProgress)
 			lastPressAction = {
 				type: 'click',
 				time: getNow(),
 				progress,
 			}
-			console.log('JUMPPP after')
 		}
 		if (
 			clickedOnceAt !== null &&
@@ -99,7 +93,6 @@ export const handleMoreThanClick = (
 			handleBeforeAction('double-click')
 		} else {
 			clickedOnceAt = getNow()
-			console.log({ clickedOnceAt })
 		}
 		startLoopIfIdle()
 	}
@@ -112,7 +105,6 @@ export const handleMoreThanClick = (
 			time: getNow(),
 			progress,
 		}
-		console.log('handlePointerDown')
 		startLoopIfIdle()
 	}
 	const handlePointerUp = (event: PointerEvent) => {
@@ -124,7 +116,6 @@ export const handleMoreThanClick = (
 			time: getNow(),
 			progress,
 		}
-		console.log('handlePointerUp')
 		if (progress === 1) {
 			handleBeforeAction('long-press')
 		}
@@ -139,7 +130,6 @@ export const handleMoreThanClick = (
 			time: getNow(),
 			progress,
 		}
-		console.log('handlePointerLeave')
 		startLoopIfIdle()
 	}
 
