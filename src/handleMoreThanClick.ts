@@ -77,7 +77,6 @@ export const handleMoreThanClick = (
 			progress * holdDurationToActionMilliseconds <
 			minimumHoldDurationMilliseconds
 		) {
-			// @TODO: ignore after double-click
 			setProgress(firstSingleClickProgress)
 			lastPressAction = {
 				type: 'click',
