@@ -43,11 +43,9 @@ export const Example: FunctionComponent = () => {
 				</button>
 			</div>
 			<div className="example-button-action-wrapper">
-				{actionInfo && (
-					<p key={actionInfo.key} className="example-button-action">
-						{actionInfo.text}
-					</p>
-				)}
+				<p key={actionInfo.key} className="example-button-action">
+					{actionInfo.text}
+				</p>
 			</div>
 		</>
 	)
