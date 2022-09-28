@@ -4,6 +4,7 @@ const firstSingleClickProgress = 0.3
 const minimumHoldDurationMilliseconds = 300
 const holdDurationToActionMilliseconds = 800
 const decayDurationMilliseconds = 1000
+const decayAfterActionDurationMilliseconds = 200
 const doubleClickMaximumIntervalMilliseconds = 500
 
 const getNow = () => Date.now()
@@ -21,6 +22,7 @@ export const handleMoreThanClick = (
 	} | null = null
 	let clickedOnceAt: number | null = null
 	let loopId: ReturnType<typeof requestAnimationFrame> | null = null
+	let isActionPerformed = false
 
 	const loop = () => {
 		const now = getNow()
@@ -36,7 +38,10 @@ export const handleMoreThanClick = (
 		} else if (lastPressAction !== null) {
 			setProgress(
 				lastPressAction.progress -
-					(now - lastPressAction.time) / decayDurationMilliseconds,
+					(now - lastPressAction.time) /
+						(isActionPerformed
+							? decayAfterActionDurationMilliseconds
+							: decayDurationMilliseconds),
 			)
 		}
 		loopId = requestAnimationFrame(loop)
@@ -62,14 +67,15 @@ export const handleMoreThanClick = (
 			progress = newProgressClamped
 			if (progress === 0) {
 				clickedOnceAt = null
+				isActionPerformed = false
 			}
 			handleProgressChange(progress)
 		}
 	}
 
 	const handleBeforeAction = (type: MoreThanClickType) => {
+		isActionPerformed = true
 		handleAction(type)
-		setProgress(0)
 	}
 
 	const handleClick = () => {
@@ -78,20 +84,19 @@ export const handleMoreThanClick = (
 			minimumHoldDurationMilliseconds
 		) {
 			setProgress(firstSingleClickProgress)
-			lastPressAction = {
-				type: 'click',
-				time: getNow(),
-				progress,
-			}
 		}
 		if (
 			clickedOnceAt !== null &&
 			clickedOnceAt >= getNow() - doubleClickMaximumIntervalMilliseconds
 		) {
-			setProgress(1)
 			handleBeforeAction('double-click')
 		} else {
 			clickedOnceAt = getNow()
+		}
+		lastPressAction = {
+			type: 'click',
+			time: getNow(),
+			progress,
 		}
 		startLoopIfIdle()
 	}
