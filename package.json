@@ -1,7 +1,7 @@
 {
 	"name": "use-more-than-click",
 	"version": "0.1.0",
-	"description": "",
+	"description": "Handles double clicks and long presses on buttons.",
 	"main": "./dist/index.js",
 	"module": "./dist/index.es.js",
 	"types": "./dist/index.d.ts",
