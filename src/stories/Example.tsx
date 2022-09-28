@@ -34,7 +34,7 @@ export const Example: FunctionComponent = () => {
 					className="example-button"
 					style={
 						{
-							['--progress']: progress,
+							'--progress': progress,
 						} as CSSProperties
 					}
 					ref={ref}
