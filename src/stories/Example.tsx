@@ -20,7 +20,7 @@ export const Example: FunctionComponent = () => {
 			reward()
 			setActionInfo({ text: `User performed ${type}.`, key: Math.random() })
 		},
-		[],
+		[reward],
 	)
 	const { progress } = useMoreThanClick(ref, handleDoubleClickOrLongPress)
 
