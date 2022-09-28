@@ -90,7 +90,10 @@ export const handleMoreThanClick = (
 		}
 		startLoopIfIdle()
 	}
-	const handlePointerDown = () => {
+	const handlePointerDown = (event: PointerEvent) => {
+		if (event.button !== 0) {
+			return
+		}
 		pressStart = {
 			time: getNow(),
 			progress,
@@ -98,8 +101,8 @@ export const handleMoreThanClick = (
 		console.log('handlePointerDown')
 		startLoopIfIdle()
 	}
-	const handlePointerUp = () => {
-		if (pressStart === null) {
+	const handlePointerUp = (event: PointerEvent) => {
+		if (pressStart === null || event.button !== 0) {
 			return
 		}
 		pressStart = null
