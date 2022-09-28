@@ -34,6 +34,7 @@ button {
 	vertical-align: baseline;
 	width: auto;
 	z-index: 0;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .example-button::before {
