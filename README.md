@@ -1,6 +1,6 @@
 # React use more than click [![npm](https://img.shields.io/npm/v/use-more-than-click.svg)](https://www.npmjs.com/package/use-more-than-click) ![npm type definitions](https://img.shields.io/npm/types/use-more-than-click.svg)
 
-> WORK IN PROGRESS!
+Handles double clicks and long presses on buttons.
 
 ## Installation
 
@@ -14,6 +14,17 @@ You can get inspired by [Example here](src/stories/Example.tsx) and [Storybook d
 
 ```jsx
 import { useMoreThanClick } from 'use-more-than-click'
+import { useRef } from 'react'
+
+const MyApp = () => {
+	const ref = useRef(null)
+
+	useMoreThanClick(ref, (actionType) => {
+		alert(`You've performed ${actionType}.`)
+	})
+
+	return <button ref={ref}>Click me</button>
+}
 ```
 
 ## Development
