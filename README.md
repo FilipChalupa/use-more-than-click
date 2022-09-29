@@ -29,7 +29,25 @@ const MyApp = () => {
 }
 ```
 
-### Options
+### Parameters
+
+```js
+useMoreThanClick(ref, actionHandler, progressHandler, options)
+```
+
+#### `ref`
+
+Element ref created by `useRef`.
+
+#### `actionHandler`
+
+Callback called after user successfully performs double click on long press.
+
+#### `progressHandler`
+
+Callback called every time `progress` updates. Progress indicating how close is user to performing an action (triggering `actionHandler`). `0` meaning hasn't tried yet and `1` indicates complete long press.
+
+#### `options`
 
 | name                       | description                                                                                                    | type                     | default |
 | -------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |

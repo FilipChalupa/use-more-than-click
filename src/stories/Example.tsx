@@ -33,7 +33,7 @@ export const Example: FunctionComponent<
 	return (
 		<>
 			<h2>Example button</h2>
-			<p>Press twice or give it one long press.</p>
+			<p>Click twice or give it one long press.</p>
 			<div className="example-button-wrapper">
 				<div className="example-button-confetti" id="confettiReward" />
 				<button
