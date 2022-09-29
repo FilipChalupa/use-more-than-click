@@ -2,6 +2,7 @@ import React, {
 	CSSProperties,
 	FunctionComponent,
 	useCallback,
+	useMemo,
 	useRef,
 	useState,
 } from 'react'
@@ -10,7 +11,14 @@ import { MoreThanClickCallback, useMoreThanClick } from '../useMoreThanClick'
 
 export const Example: FunctionComponent<
 	Parameters<typeof useMoreThanClick>['2']
-> = ({ children, ...options }) => {
+> = ({
+	firstSingleClickProgress,
+	minimumHoldDuration,
+	holdDurationToAction,
+	decayDuration,
+	decayAfterActionDuration,
+	doubleClickMaximumInterval,
+}) => {
 	const ref = useRef<HTMLButtonElement>(null)
 	const { reward } = useReward('confettiReward', 'confetti')
 	const [actionInfo, setActionInfo] = useState({
@@ -24,6 +32,26 @@ export const Example: FunctionComponent<
 		},
 		[reward],
 	)
+
+	const options = useMemo(
+		() => ({
+			firstSingleClickProgress,
+			minimumHoldDuration,
+			holdDurationToAction,
+			decayDuration,
+			decayAfterActionDuration,
+			doubleClickMaximumInterval,
+		}),
+		[
+			firstSingleClickProgress,
+			minimumHoldDuration,
+			holdDurationToAction,
+			decayDuration,
+			decayAfterActionDuration,
+			doubleClickMaximumInterval,
+		],
+	)
+
 	const { progress } = useMoreThanClick(
 		ref,
 		handleDoubleClickOrLongPress,
