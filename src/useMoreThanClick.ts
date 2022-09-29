@@ -8,6 +8,7 @@ export type MoreThanClickCallback = (type: MoreThanClickType) => void
 export const useMoreThanClick = (
 	ref: RefObject<HTMLElement>,
 	actionHandler: MoreThanClickCallback,
+	options?: Parameters<typeof handleMoreThanClick>['3'],
 ) => {
 	const [progress, setProgress] = useState(0)
 
@@ -22,6 +23,7 @@ export const useMoreThanClick = (
 			(progress) => {
 				setProgress(progress)
 			},
+			options,
 		)
 
 		return () => {

@@ -1,12 +1,13 @@
 export type MoreThanClickType = 'double-click' | 'long-press'
 
-// @TODO: make configurable
-const firstSingleClickProgress = 0.3
-const minimumHoldDurationMilliseconds = 300
-const holdDurationToActionMilliseconds = 800
-const decayDurationMilliseconds = 1000
-const decayAfterActionDurationMilliseconds = 200
-const doubleClickMaximumIntervalMilliseconds = 500
+export type MoreThanClickOptions = {
+	firstSingleClickProgress: number
+	minimumHoldDuration: number
+	holdDurationToAction: number
+	decayDuration: number
+	decayAfterActionDuration: number
+	doubleClickMaximumInterval: number
+}
 
 const getNow = () => Date.now()
 
@@ -14,7 +15,17 @@ export const handleMoreThanClick = (
 	element: HTMLElement,
 	handleAction: (type: MoreThanClickType) => void = () => {},
 	handleProgressChange: (progress: number) => void = () => {},
+	options: Partial<MoreThanClickOptions> = {},
 ) => {
+	const {
+		firstSingleClickProgress = 0.3,
+		minimumHoldDuration = 300,
+		holdDurationToAction = 800,
+		decayDuration = 1000,
+		decayAfterActionDuration = 200,
+		doubleClickMaximumInterval = 500,
+	} = options
+
 	let progress = 0
 	let lastPressAction: {
 		type: 'down' | 'up' | 'leave' | 'click'
@@ -34,15 +45,13 @@ export const handleMoreThanClick = (
 		if (lastPressAction?.type === 'down') {
 			setProgress(
 				lastPressAction.progress +
-					(now - lastPressAction.time) / holdDurationToActionMilliseconds,
+					(now - lastPressAction.time) / holdDurationToAction,
 			)
 		} else if (lastPressAction !== null) {
 			setProgress(
 				lastPressAction.progress -
 					(now - lastPressAction.time) /
-						(isActionPerformed
-							? decayAfterActionDurationMilliseconds
-							: decayDurationMilliseconds),
+						(isActionPerformed ? decayAfterActionDuration : decayDuration),
 			)
 		}
 		loopId = requestAnimationFrame(loop)
@@ -80,15 +89,12 @@ export const handleMoreThanClick = (
 	}
 
 	const handleClick = () => {
-		if (
-			progress * holdDurationToActionMilliseconds <
-			minimumHoldDurationMilliseconds
-		) {
+		if (progress * holdDurationToAction < minimumHoldDuration) {
 			setProgress(firstSingleClickProgress)
 		}
 		if (
 			clickedOnceAt !== null &&
-			clickedOnceAt >= getNow() - doubleClickMaximumIntervalMilliseconds
+			clickedOnceAt >= getNow() - doubleClickMaximumInterval
 		) {
 			handleBeforeAction('double-click')
 		} else {
