@@ -8,7 +8,9 @@ import React, {
 import { useReward } from 'react-rewards'
 import { MoreThanClickCallback, useMoreThanClick } from '../useMoreThanClick'
 
-export const Example: FunctionComponent = () => {
+export const Example: FunctionComponent<
+	Parameters<typeof useMoreThanClick>['2']
+> = ({ children, ...options }) => {
 	const ref = useRef<HTMLButtonElement>(null)
 	const { reward } = useReward('confettiReward', 'confetti')
 	const [actionInfo, setActionInfo] = useState({
@@ -22,7 +24,11 @@ export const Example: FunctionComponent = () => {
 		},
 		[reward],
 	)
-	const { progress } = useMoreThanClick(ref, handleDoubleClickOrLongPress)
+	const { progress } = useMoreThanClick(
+		ref,
+		handleDoubleClickOrLongPress,
+		options,
+	)
 
 	return (
 		<>
