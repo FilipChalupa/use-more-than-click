@@ -2,6 +2,8 @@
 
 Handles double clicks and long presses on buttons.
 
+![example](https://raw.githubusercontent.com/FilipChalupa/use-more-than-click/HEAD/screencast.gif)
+
 ## Installation
 
 ```bash
