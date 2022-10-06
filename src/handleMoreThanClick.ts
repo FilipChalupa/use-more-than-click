@@ -36,6 +36,10 @@ export const handleMoreThanClick = (
 	let loopId: ReturnType<typeof requestAnimationFrame> | null = null
 	let isActionPerformed = false
 
+	const isDisabled = () => {
+		return element instanceof HTMLButtonElement && element.disabled
+	}
+
 	const loop = () => {
 		const now = getNow()
 		if (progress === 0 && lastPressAction?.type !== 'down') {
@@ -108,7 +112,7 @@ export const handleMoreThanClick = (
 		startLoopIfIdle()
 	}
 	const handlePointerDown = (event: PointerEvent) => {
-		if (event.button !== 0) {
+		if (event.button !== 0 || isDisabled()) {
 			return
 		}
 		lastPressAction = {
@@ -159,6 +163,7 @@ export const handleMoreThanClick = (
 
 	return {
 		destroy,
+		isDisabled,
 		isPressed: () => lastPressAction?.type === 'down',
 		progress: () => progress,
 	}

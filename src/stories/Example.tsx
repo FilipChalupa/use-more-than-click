@@ -9,15 +9,18 @@ import React, {
 import { useReward } from 'react-rewards'
 import { MoreThanClickCallback, useMoreThanClick } from '../useMoreThanClick'
 
-export const Example: FunctionComponent<
-	Parameters<typeof useMoreThanClick>['2']
-> = ({
+type Props = Parameters<typeof useMoreThanClick>['2'] & {
+	disabled?: boolean
+}
+
+export const Example: FunctionComponent<Props> = ({
 	firstSingleClickProgress,
 	minimumHoldDuration,
 	holdDurationToAction,
 	decayDuration,
 	decayAfterActionDuration,
 	doubleClickMaximumInterval,
+	disabled,
 }) => {
 	const ref = useRef<HTMLButtonElement>(null)
 	const { reward } = useReward('confettiReward', 'confetti')
@@ -72,6 +75,7 @@ export const Example: FunctionComponent<
 						} as CSSProperties
 					}
 					ref={ref}
+					disabled={disabled}
 				>
 					Click me
 				</button>

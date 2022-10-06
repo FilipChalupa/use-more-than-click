@@ -76,6 +76,11 @@ button {
 	-webkit-tap-highlight-color: transparent;
 }
 
+.example-button:disabled {
+	opacity: 0.2;
+	cursor: not-allowed;
+}
+
 .example-button::before {
 	content: '';
 	position: absolute;
@@ -87,16 +92,16 @@ button {
 	transform-origin: 0 50%;
 }
 
-.example-button:hover,
-.example-button:focus-visible {
+.example-button:not(:disabled):hover,
+.example-button:not(:disabled):focus-visible {
 	box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
 
-.example-button:hover {
+.example-button:not(:disabled):hover {
 	transform: translateY(-1px);
 }
 
-.example-button:active {
+.example-button:not(:disabled):active {
 	background-color: #F0F0F1;
 	box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
 	transform: translateY(0);
